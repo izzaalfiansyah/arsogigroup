@@ -11,9 +11,9 @@
 	};
 	let data: Penjualan[] = [];
 	let produk: Produk[] = [];
-  let url = {
-    print: '',
-  }
+	let url = {
+		print: '',
+	};
 
 	function get() {
 		http
@@ -22,7 +22,7 @@
 			})
 			.then((res) => {
 				data = res.data;
-        url.print = res.headers['x-print-url'];
+				url.print = res.headers['x-print-url'];
 			});
 	}
 
@@ -49,7 +49,13 @@
 			<DatePicker placeholder="Pilih Tanggal" bind:value={filter._tanggal} />
 		</div>
 		<div class="lg:w-1/2 w-full px-3 lg:text-right mb-2">
-			<a target="_blank" href="{url.print}" disabled="{url.print ? false : true}" class="btn !inline-block p-2" color="red">PRINT</a>
+			<a
+				target="_blank"
+				href={url.print}
+				disabled={url.print ? false : true}
+				class="btn !inline-block p-2"
+				color="red">PRINT</a
+			>
 		</div>
 	</div>
 
@@ -72,11 +78,8 @@
 					<td rowspan="2" class="p-3 px-4 text-center font-semibold text-sm border border-gray-100"
 						>HP</td
 					>
-					<td rowspan="2" class="p-3 px-4 text-center font-semibold text-sm border border-gray-100"
-						>PINJAMAN BOTOL</td
-					>
-					<td rowspan="2" class="p-3 px-4 text-center font-semibold text-sm border border-gray-100"
-						>PINJAMAN KRAT</td
+					<td colspan="2" class="p-3 px-4 text-center font-semibold text-sm border border-gray-100"
+						>PINJAMAN</td
 					>
 					<td
 						colspan={produk.length + 1}
@@ -87,6 +90,8 @@
 					>
 				</tr>
 				<tr>
+					<td class="p-3 px-4 text-center font-semibold text-sm border border-gray-100">BOTOL</td>
+					<td class="p-3 px-4 text-center font-semibold text-sm border border-gray-100">KRAT</td>
 					{#each produk as item}
 						<td class="p-3 px-4 text-center font-semibold text-sm border border-gray-100 uppercase"
 							>{item.nama}</td
@@ -102,20 +107,22 @@
 			<tbody>
 				{#each data as item, i}
 					<tr class="border border-gray-100 transition hover:bg-gray-50">
-						<td class="p-4">{i + 1}</td>
-						<td class="p-4">{item.pelanggan.id}</td>
+						<td class="p-4 text-center">{i + 1}</td>
+						<td class="p-4 text-center">{item.pelanggan.id}</td>
 						<td class="p-4">{item.pelanggan.nama_pemilik} ({item.pelanggan.nama_toko})</td>
 						<td class="p-4">{item.pelanggan.alamat}</td>
-						<td class="p-4">HP1:{item.pelanggan.hp1}, HP2:{item.pelanggan.hp2 ? item.pelanggan.hp2 : '-'}</td>
 						<td class="p-4"
+							>HP1:{item.pelanggan.hp1}, HP2:{item.pelanggan.hp2 ? item.pelanggan.hp2 : '-'}</td
+						>
+						<td class="p-4 text-center"
 							>{item.pelanggan.total_pinjaman_botol ? item.pelanggan.total_pinjaman_botol : 0}</td
 						>
-						<td class="p-4"
+						<td class="p-4 text-center"
 							>{item.pelanggan.total_pinjaman_krat ? item.pelanggan.total_pinjaman_krat : 0}</td
 						>
 						{#each produk as p}
 							{@const itemProduk = item.item.filter((i) => i.barang_id == p.id)}
-							<td class="p-4">{itemProduk[0] ? itemProduk[0].jumlah : 0}</td>
+							<td class="p-4 text-center">{itemProduk[0] ? itemProduk[0].jumlah : 0}</td>
 						{/each}
 						<td class="p-4">Rp.{parseInt(item.subtotal).toLocaleString('id-ID')}</td>
 						<td class="p-4">-</td>

@@ -23,7 +23,7 @@ class PenjualanController extends Controller
 
         if ($status_awal = $req->status_awal) {
             $builder = $builder->where('penjualan.status_awal', $status_awal);
-            
+
             if ($status_filter = $req->status_filter) {
                 if ($status_filter == '-1') {
                     $builder = $builder->where('penjualan.status', $status_awal);
@@ -43,12 +43,12 @@ class PenjualanController extends Controller
         if ($search = $req->q) {
             $builder = $builder->where(function ($query) use ($search) {
                 $query->where('penjualan.id', 'LIKE', "%$search%")
-                ->orWhere('pelanggan.nama_pemilik', 'LIKE', "%$search%")
-                ->orWhere('pelanggan.nama_toko', 'LIKE', "%$search%")
-                ->orWhere('penjualan.nama_sales', 'LIKE', "%$search%")
-                ->orWhere('penjualan.nama_delivery', 'LIKE', "%$search%")
-                ->orWhere('penjualan.status_penjualan', 'LIKE', "%$search%")
-                ->orWhere('penjualan.total_penjualan', 'LIKE', "%$search%");
+                    ->orWhere('pelanggan.nama_pemilik', 'LIKE', "%$search%")
+                    ->orWhere('pelanggan.nama_toko', 'LIKE', "%$search%")
+                    ->orWhere('penjualan.nama_sales', 'LIKE', "%$search%")
+                    ->orWhere('penjualan.nama_delivery', 'LIKE', "%$search%")
+                    ->orWhere('penjualan.status_penjualan', 'LIKE', "%$search%")
+                    ->orWhere('penjualan.total_penjualan', 'LIKE', "%$search%");
             });
         }
 
@@ -110,7 +110,7 @@ class PenjualanController extends Controller
         $item = Model::find($id);
 
         $item->delete();
-        
+
         return response($item);
     }
 
@@ -136,7 +136,7 @@ class PenjualanController extends Controller
                 }
             }
         }
-        
+
         return response($data)
             ->header('X-Print-Url', url('/api/penjualan/print?' . http_build_query($req->all())))
             ->header('X-Excel-Url', url('/api/penjualan/excel?' . http_build_query($req->all())));
@@ -146,7 +146,7 @@ class PenjualanController extends Controller
     {
         $data = $this->laporan($req)->original;
         $produk = DB::table('barang')->get();
-        
+
         return view('penjualan', compact('data', 'produk'));
     }
 }
